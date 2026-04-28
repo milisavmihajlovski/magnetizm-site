@@ -124,15 +124,9 @@ if (aboutSection) annoObserver.observe(aboutSection);
 
 // ── Contact form submit ──
 function handleSubmit(e) {
-  e.preventDefault();
-  const success = document.getElementById('contactSuccess');
   const btn = document.querySelector('.contact__submit');
   btn.textContent = 'Sending...';
   btn.disabled = true;
-  setTimeout(() => {
-    btn.textContent = 'Sent!';
-    success.classList.add('visible');
-  }, 800);
 }
 
 // ── Services cards entrance animation ──
