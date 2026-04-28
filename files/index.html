@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MagnetiZM — Video Agency</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+  <header class="nav" id="mainNav">
+    <a href="#" class="nav__logo">
+      <img src="images/logo.png" alt="MagnetiZM" class="nav__logo-img" />
+    </a>
+    <nav class="nav__links">
+      <a href="#about">About</a>
+      <a href="#work">Work</a>
+      <a href="#services">Services</a>
+      <a href="#contact" class="nav__cta">Book a call</a>
+    </nav>
+    <button class="nav__burger" aria-label="Open menu" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#work" onclick="toggleMenu()">Work</a>
+    <a href="#services" onclick="toggleMenu()">Services</a>
+    <a href="#contact" class="mobile-menu__cta" onclick="toggleMenu()">Book a call</a>
+  </div>
+
+  <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+  <section class="hero">
+    <div class="hero__video-wrap">
+      <video class="hero__video" src="video/hero-bg.mp4" autoplay muted loop playsinline poster="images/hero-poster.jpg"></video>
+      <div class="hero__overlay"></div>
+    </div>
+    <div class="hero__content">
+      <h1 class="hero__headline">
+        Video that<br />
+        <span class="hero__accent">actually</span><br />
+        converts.
+      </h1>
+      <a href="#contact" class="btn btn--magenta">Book a free call</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ ABOUT ═══════════════════════════ -->
+  <section class="about" id="about">
+    <div class="about__inner">
+      <div class="about__text">
+        <h2 class="about__headline">
+          The faces behind<br />
+          <span class="about__accent">MagnetiZM</span>
+        </h2>
+        <p class="about__body">
+          We're Megi and Mili, a husband and wife team running MagnetiZM since 2014. Together we combine over a decade of creative, strategic, and technical expertise to deliver video content that actually moves the needle.
+        </p>
+        <p class="about__body">
+          We don't just show up with a camera. Before we write a single line or shoot a single frame, we go full Sherlock Holmes on your business, your offer, your audience, what makes you different. That deep understanding is what separates video that converts from video that just looks good.
+        </p>
+        <p class="about__body">
+          Based in Ljubljana, Slovenia. Working with business owners worldwide.
+        </p>
+        <a href="#contact" class="btn btn--magenta">Book a free call</a>
+      </div>
+      <div class="about__photo-wrap">
+
+        <!-- Annotations sit above the photos in the white space -->
+        <div class="annotations-row">
+
+          <!-- Megi: name on left, arrow curves down-right into her photo -->
+          <div class="annotation annotation--megi" id="annoMegi">
+            <span class="annotation__name">Megi</span>
+            <svg class="annotation__arrow" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+              <!-- Curve from top-left downward to photo -->
+              <path id="megiCurve" d="M 10 5 C 15 25, 35 45, 55 62" stroke="#E8177A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Arrowhead -->
+              <path id="megiHead" d="M 55 62 L 46 58 M 55 62 L 53 52" stroke="#E8177A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </svg>
+          </div>
+
+          <!-- Mili: arrow curves down-left into his photo, name on right -->
+          <div class="annotation annotation--mili" id="annoMili">
+            <svg class="annotation__arrow" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg" overflow="visible">
+              <!-- Curve from top-right downward to photo -->
+              <path id="miliCurve" d="M 60 5 C 55 25, 35 45, 15 62" stroke="#E8177A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+              <!-- Arrowhead -->
+              <path id="miliHead" d="M 15 62 L 24 58 M 15 62 L 17 52" stroke="#E8177A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </svg>
+            <span class="annotation__name">Mili</span>
+          </div>
+
+        </div>
+
+        <img src="images/team.png" alt="Megi and Mili — MagnetiZM" class="about__photo" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════ WORK ═══════════════════════════ -->
+  <section class="work" id="work">
+    <div class="work__header">
+      <h2 class="work__headline">Red Carpet</h2>
+      <p class="work__sub">From TV commercials to social media ads — we've done it all.</p>
+    </div>
+
+    <div class="work__slider">
+      <div class="work__player-wrap">
+        <!-- YouTube Player — controlled by IFrame API in main.js -->
+        <div id="ytPlayer"></div>
+
+        <!-- Project info overlay -->
+        <div class="work__info" id="workInfo">
+          <p class="work__info-client">Pulse Shake</p>
+          <p class="work__info-desc">High-energy social media ads built for scroll-stopping results.</p>
+        </div>
+
+        <!-- Counter -->
+        <div class="work__counter" id="workCounter">01 / 10</div>
+      </div>
+
+      <!-- Arrows -->
+      <button class="work__arrow work__arrow--prev" onclick="changeSlide(-1)" aria-label="Previous">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="work__arrow work__arrow--next" onclick="changeSlide(1)" aria-label="Next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+  </section>
+  <!-- ═══════════════════════════ END WORK ═══════════════════════════ -->
+
+  <!-- ═══════════════════════════ SERVICES ═══════════════════════════ -->
+  <section class="services" id="services">
+    <div class="services__header">
+      <h2 class="services__headline">Audio Visual Menu</h2>
+    </div>
+
+    <div class="services__grid">
+
+      <!-- Card 01 -->
+      <div class="service-card service-card--anim">
+        <span class="service-card__num">01</span>
+        <h3 class="service-card__title">Full Production</h3>
+        <div class="service-card__body">
+          <p>Got a course to film? A product to launch? A service that needs a killer ad? Or maybe some client testimonials that actually make people buy?</p>
+          <p>That's exactly what we do. We handle everything from A to Z, strategy, scripting, shooting, and editing. You show up. We take care of the rest.</p>
+        </div>
+      </div>
+
+      <!-- Card 02 -->
+      <div class="service-card service-card--anim">
+        <span class="service-card__num">02</span>
+        <h3 class="service-card__title">Monthly Partnership</h3>
+        <div class="service-card__body">
+          <p>Consistent video content is one of the hardest things to keep up with. No time, no ideas, no energy, sound familiar?</p>
+          <p>That's where we come in. We become your dedicated video partner on a monthly basis, delivering a steady stream of fresh content that keeps your audience engaged and your business growing.</p>
+        </div>
+      </div>
+
+      <!-- Card 03 -->
+      <div class="service-card service-card--anim">
+        <span class="service-card__num">03</span>
+        <h3 class="service-card__title">Strategy & Marketing</h3>
+        <div class="service-card__body">
+          <p>You have something great to sell. But without the right strategy, it just sits there.</p>
+          <p>We help you build a sales funnel that actually converts, from positioning your offer and finding your ideal audience, to tracking what works and doubling down on it. We put your brand in front of the right people, at the right time, with the right message.</p>
+        </div>
+      </div>
+
+      <!-- Card 04 -->
+      <div class="service-card service-card--anim">
+        <span class="service-card__num">04</span>
+        <h3 class="service-card__title">Automation</h3>
+        <div class="service-card__body">
+          <p>Replying to comments. Following up with leads. Sending the same email for the hundredth time. It all adds up and it's eating into time you could spend actually growing your business.</p>
+          <p>We set up smart automation systems that handle the repetitive stuff for you, so you can stay focused on what actually moves the needle.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="services__footer">
+      <a href="#contact" class="btn btn--dark">Book a free call</a>
+    </div>
+
+  </section>
+  <!-- ═══════════════════════════ END SERVICES ═══════════════════════════ -->
+
+  <!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
+  <section class="contact" id="contact">
+    <div class="contact__inner">
+
+      <div class="contact__header">
+        <h2 class="contact__headline">Book a Call</h2>
+        <p class="contact__sub">Reach out, pick a time that works for you, and we'll take it from there. No commitment. Just a conversation.</p>
+      </div>
+
+      <form class="contact__form" onsubmit="handleSubmit(event)">
+        <div class="contact__row">
+          <div class="contact__field">
+            <label for="contactName">Name</label>
+            <input type="text" id="contactName" name="name" placeholder="Your name" required />
+          </div>
+          <div class="contact__field">
+            <label for="contactEmail">Email</label>
+            <input type="email" id="contactEmail" name="email" placeholder="your@email.com" required />
+          </div>
+        </div>
+        <div class="contact__field">
+          <label for="contactMessage">Message</label>
+          <textarea id="contactMessage" name="message" placeholder="Tell us a bit about your business and what you're looking for..." rows="6" required></textarea>
+        </div>
+        <button type="submit" class="btn btn--magenta contact__submit">Send Message</button>
+        <p class="contact__success" id="contactSuccess">Thanks! We'll be in touch shortly.</p>
+      </form>
+
+    </div>
+  </section>
+  <!-- ═══════════════════════════ END CONTACT ═══════════════════════════ -->
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="#" class="footer__logo">
+        <img src="images/logo.png" alt="MagnetiZM" class="footer__logo-img" />
+      </a>
+      <p class="footer__copy">© 2025 MagnetiZM. All rights reserved.</p>
+      <div class="footer__links">
+        <a href="mailto:info@magnetizm.agency">info@magnetizm.agency</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
