@@ -2,74 +2,71 @@
 // MAGNETIZM — MAIN JS
 // ═══════════════════════════════════════════
 
-// ── Custom trailing circle cursor ──
-const cursors = [
-  { el: null, x: 0, y: 0, size: 10, color: '#FFFFFF', delay: 0 },
-  { el: null, x: 0, y: 0, size: 14, color: '#E8177A', delay: 0.12 },
-  { el: null, x: 0, y: 0, size: 18, color: '#F0A500', delay: 0.24 }
-];
+// ── Custom trailing circle cursor (desktop/mouse only) ──
+const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
-cursors.forEach((c, i) => {
-  const dot = document.createElement('div');
-  dot.style.cssText = `
-    position: fixed;
-    width: ${c.size}px;
-    height: ${c.size}px;
-    border-radius: 50%;
-    background: ${c.color};
-    pointer-events: none;
-    z-index: 99999;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    mix-blend-mode: difference;
-  `;
-  document.body.appendChild(dot);
-  c.el = dot;
-});
-
-let mouseX = 0, mouseY = 0;
-let started = false;
-
-document.addEventListener('mousemove', (e) => {
-  mouseX = e.clientX;
-  mouseY = e.clientY;
-  if (!started) {
-    started = true;
-    cursors.forEach(c => c.el.style.opacity = '1');
-    document.body.style.cursor = 'none';
-    document.querySelectorAll('a, button, input, textarea').forEach(el => el.style.cursor = 'none');
-  }
-});
-
-document.addEventListener('mouseleave', () => {
-  cursors.forEach(c => c.el.style.opacity = '0');
-  started = false;
-});
-
-// Each cursor chases the one ahead of it with a lag
-let positions = cursors.map(() => ({ x: 0, y: 0 }));
-
-function animateCursors() {
-  // First cursor snaps to mouse
-  positions[0].x += (mouseX - positions[0].x) * 0.9;
-  positions[0].y += (mouseY - positions[0].y) * 0.9;
-
-  // Second and third lag behind
-  positions[1].x += (positions[0].x - positions[1].x) * 0.35;
-  positions[1].y += (positions[0].y - positions[1].y) * 0.35;
-
-  positions[2].x += (positions[1].x - positions[2].x) * 0.25;
-  positions[2].y += (positions[1].y - positions[2].y) * 0.25;
+if (!isTouchDevice) {
+  const cursors = [
+    { el: null, x: 0, y: 0, size: 10, color: '#FFFFFF', delay: 0 },
+    { el: null, x: 0, y: 0, size: 14, color: '#E8177A', delay: 0.12 },
+    { el: null, x: 0, y: 0, size: 18, color: '#F0A500', delay: 0.24 }
+  ];
 
   cursors.forEach((c, i) => {
-    c.el.style.left = positions[i].x + 'px';
-    c.el.style.top = positions[i].y + 'px';
+    const dot = document.createElement('div');
+    dot.style.cssText = `
+      position: fixed;
+      width: ${c.size}px;
+      height: ${c.size}px;
+      border-radius: 50%;
+      background: ${c.color};
+      pointer-events: none;
+      z-index: 99999;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      mix-blend-mode: difference;
+    `;
+    document.body.appendChild(dot);
+    c.el = dot;
   });
 
-  requestAnimationFrame(animateCursors);
-}
+  let mouseX = 0, mouseY = 0;
+  let started = false;
 
-animateCursors();
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    if (!started) {
+      started = true;
+      cursors.forEach(c => c.el.style.opacity = '1');
+      document.body.style.cursor = 'none';
+      document.querySelectorAll('a, button, input, textarea').forEach(el => el.style.cursor = 'none');
+    }
+  });
+
+  document.addEventListener('mouseleave', () => {
+    cursors.forEach(c => c.el.style.opacity = '0');
+    started = false;
+  });
+
+  const positions = cursors.map(() => ({ x: 0, y: 0 }));
+
+  function animateCursors() {
+    positions[0].x += (mouseX - positions[0].x) * 0.9;
+    positions[0].y += (mouseY - positions[0].y) * 0.9;
+    positions[1].x += (positions[0].x - positions[1].x) * 0.35;
+    positions[1].y += (positions[0].y - positions[1].y) * 0.35;
+    positions[2].x += (positions[1].x - positions[2].x) * 0.25;
+    positions[2].y += (positions[1].y - positions[2].y) * 0.25;
+    cursors.forEach((c, i) => {
+      c.el.style.left = positions[i].x + 'px';
+      c.el.style.top = positions[i].y + 'px';
+    });
+    requestAnimationFrame(animateCursors);
+  }
+
+  animateCursors();
+}
 
 // ── Scroll-triggered nav ──
 const nav = document.getElementById('mainNav');
@@ -370,15 +367,10 @@ function changeTestimonial(dir) {
 function recalcTestimonialsHeight() {
   if (!testimonialsTrack) return;
   testimonialsTrack.style.height = '';
-  if (window.innerWidth <= 768) {
-    const activeCard = testimonialsTrack.querySelector('.testimonial-card.active');
-    if (activeCard) testimonialsTrack.style.height = activeCard.offsetHeight + 'px';
-  } else {
-    const allCards = testimonialsTrack.querySelectorAll('.testimonial-card');
-    let maxHeight = 0;
-    allCards.forEach(card => { maxHeight = Math.max(maxHeight, card.offsetHeight); });
-    testimonialsTrack.style.height = maxHeight + 'px';
-  }
+  const allCards = testimonialsTrack.querySelectorAll('.testimonial-card');
+  let maxHeight = 0;
+  allCards.forEach(card => { maxHeight = Math.max(maxHeight, card.offsetHeight); });
+  testimonialsTrack.style.height = maxHeight + 'px';
 }
 
 window.addEventListener('load', recalcTestimonialsHeight);
@@ -436,11 +428,25 @@ let currentReel = 0;
 const reelModal = document.getElementById('reelModal');
 const reelModalVideo = document.getElementById('reelModalVideo');
 const reelModalCounter = document.getElementById('reelModalCounter');
-const gridVideos = document.querySelectorAll('.reel-item__video');
 
 document.querySelectorAll('.reel-item').forEach((item, index) => {
   item.addEventListener('click', () => openReelModal(index));
 });
+
+// Play reel grid videos only when visible — avoids loading all 4 upfront
+const reelGridObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const video = entry.target.querySelector('.reel-item__video');
+    if (!video) return;
+    if (entry.isIntersecting) {
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+    }
+  });
+}, { threshold: 0.25 });
+
+document.querySelectorAll('.reel-item').forEach(item => reelGridObserver.observe(item));
 
 function openReelModal(index) {
   currentReel = index;
@@ -450,7 +456,7 @@ function openReelModal(index) {
   updateReelCounter();
   reelModal.classList.add('open');
   document.body.style.overflow = 'hidden';
-  gridVideos.forEach(v => v.pause());
+  document.querySelectorAll('.reel-item__video').forEach(v => v.pause());
 }
 
 function closeReelModal() {
@@ -458,7 +464,6 @@ function closeReelModal() {
   reelModalVideo.pause();
   reelModalVideo.src = '';
   document.body.style.overflow = '';
-  gridVideos.forEach(v => v.play());
 }
 
 function changeReelSlide(dir) {
