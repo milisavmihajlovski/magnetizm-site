@@ -3,18 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="strict-origin-when-cross-origin" />
   <title>MagnetiZm — Video Agency</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500;600&family=Caveat:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/fonts.css" />
+  <meta name="description" content="MagnetiZm is a video agency creating video content that actually converts. From TV commercials to social media ads. Based in Ljubljana, working worldwide." />
+
+  <!-- Open Graph (social sharing) -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="MagnetiZm — Video Agency" />
+  <meta property="og:description" content="MagnetiZm is a video agency creating video content that actually converts. From TV commercials to social media ads. Based in Ljubljana, working worldwide." />
+  <meta property="og:image" content="https://www.magnetizm.agency/images/heading.png" />
+  <meta property="og:url" content="https://www.magnetizm.agency" />
+
+  <!-- Twitter/X card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="MagnetiZm — Video Agency" />
+  <meta name="twitter:description" content="MagnetiZm is a video agency creating video content that actually converts. From TV commercials to social media ads. Based in Ljubljana, working worldwide." />
+  <meta name="twitter:image" content="https://www.magnetizm.agency/images/heading.png" />
+
+  <link rel="icon" type="image/png" href="images/favicon.png" />
+  <link rel="shortcut icon" type="image/png" href="images/favicon.png" />
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
+  <a href="#main-content" class="skip-nav">Skip to main content</a>
+
   <!-- ═══════════════════════════ NAV ═══════════════════════════ -->
   <header class="nav" id="mainNav">
     <a href="#" class="nav__logo">
-      <img src="images/logo.png" alt="MagnetiZM" class="nav__logo-img" />
+      <img src="images/logo.png" alt="MagnetiZm" class="nav__logo-img" />
     </a>
     <nav class="nav__links">
       <a href="#about">About</a>
@@ -22,22 +40,23 @@
       <a href="#services">Services</a>
       <a href="#contact" class="nav__cta">Book a call</a>
     </nav>
-    <button class="nav__burger" aria-label="Open menu" onclick="toggleMenu()">
+    <button class="nav__burger" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
   </header>
 
   <div class="mobile-menu" id="mobileMenu">
-    <a href="#about" onclick="toggleMenu()">About</a>
-    <a href="#work" onclick="toggleMenu()">Work</a>
-    <a href="#services" onclick="toggleMenu()">Services</a>
-    <a href="#contact" class="mobile-menu__cta" onclick="toggleMenu()">Book a call</a>
+    <a href="#about">About</a>
+    <a href="#work">Work</a>
+    <a href="#services">Services</a>
+    <a href="#contact" class="mobile-menu__cta">Book a call</a>
   </div>
 
   <!-- ═══════════════════════════ HERO ═══════════════════════════ -->
-  <section class="hero">
+  <section class="hero" id="main-content">
     <div class="hero__video-wrap">
-      <video class="hero__video" src="video/hero-bg.mp4" autoplay muted loop playsinline poster="images/hero-poster.jpg"></video>
+      <video class="hero__video hero__video--desktop" src="video/hero-bg.mp4" autoplay muted loop playsinline poster="images/hero-poster.jpg"></video>
+      <video class="hero__video hero__video--mobile" src="video/hero-bg-mobile.mp4" autoplay muted loop playsinline></video>
       <div class="hero__overlay"></div>
     </div>
     <div class="hero__content">
@@ -56,10 +75,10 @@
       <div class="about__text">
         <h2 class="about__headline">
           The faces behind<br />
-          <span class="about__accent">MagnetiZM</span>
+          <span class="about__accent">MagnetiZm</span>
         </h2>
         <p class="about__body">
-          We're Megi and Mili, a husband and wife team running MagnetiZM since 2014. Together we combine over a decade of creative, strategic, and technical expertise to deliver video content that actually moves the needle.
+          We're Megi and Mili, a husband and wife team running MagnetiZm since 2014. Together we combine over a decade of creative, strategic, and technical expertise to deliver video content that actually converts.
         </p>
         <p class="about__body">
           We don't just show up with a camera. Before we write a single line or shoot a single frame, we go full Sherlock Holmes on your business, your offer, your audience, what makes you different. That deep understanding is what separates video that converts from video that just looks good.
@@ -98,7 +117,7 @@
 
         </div>
 
-        <img src="images/team.png" alt="Megi and Mili — MagnetiZM" class="about__photo" />
+        <img src="images/team.png" alt="Megi and Mili — MagnetiZm" class="about__photo" />
       </div>
     </div>
   </section>
@@ -126,15 +145,46 @@
       </div>
 
       <!-- Arrows -->
-      <button class="work__arrow work__arrow--prev" onclick="changeSlide(-1)" aria-label="Previous">
+      <button class="work__arrow work__arrow--prev" id="workPrev" aria-label="Previous">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
       </button>
-      <button class="work__arrow work__arrow--next" onclick="changeSlide(1)" aria-label="Next">
+      <button class="work__arrow work__arrow--next" id="workNext" aria-label="Next">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
       </button>
     </div>
   </section>
   <!-- ═══════════════════════════ END WORK ═══════════════════════════ -->
+
+  <!-- ═══════════════════════════ REELS ═══════════════════════════ -->
+  <section class="reels" id="reels">
+    <div class="reels__header">
+      <h2 class="reels__headline">Stop the Scroll</h2>
+      <p class="reels__sub">Whether you film yourself or book a shooting session with us, we transform your raw footage into <span class="reels__underline">magnetic video content<svg class="reels__underline-svg" viewBox="0 0 200 8" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M 2 5 C 20 3, 45 7, 70 4 C 95 1, 125 6, 155 3 C 170 1.5, 185 5, 198 4" stroke="#E8177A" stroke-width="2.5" stroke-linecap="round"/></svg></span> that stops the scroll.</p>
+    </div>
+    <div class="reels__grid">
+      <div class="reel-item">
+        <video class="reel-item__video" src="video/etnobotanika.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div class="reel-item__play"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+        <span class="reel-item__num">01</span>
+      </div>
+      <div class="reel-item">
+        <video class="reel-item__video" src="video/megi.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div class="reel-item__play"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+        <span class="reel-item__num">02</span>
+      </div>
+      <div class="reel-item">
+        <video class="reel-item__video" src="video/jana.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div class="reel-item__play"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+        <span class="reel-item__num">03</span>
+      </div>
+      <div class="reel-item">
+        <video class="reel-item__video" src="video/neja.mp4" autoplay muted loop playsinline preload="metadata"></video>
+        <div class="reel-item__play"><svg width="20" height="20" viewBox="0 0 24 24" fill="white"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg></div>
+        <span class="reel-item__num">04</span>
+      </div>
+    </div>
+  </section>
+  <!-- ═══════════════════════════ END REELS ═══════════════════════════ -->
 
   <!-- ═══════════════════════════ SERVICES ═══════════════════════════ -->
   <section class="services" id="services">
@@ -193,6 +243,25 @@
   </section>
   <!-- ═══════════════════════════ END SERVICES ═══════════════════════════ -->
 
+  <!-- ═══════════════════════════ TESTIMONIALS ═══════════════════════════ -->
+  <section class="testimonials" id="testimonials">
+    <div class="testimonials__header">
+      <h2 class="testimonials__headline">Testimonials</h2>
+      <p class="testimonials__sub">They say the most powerful thing in business is a recommendation — and we love that good word is spreading about us.</p>
+    </div>
+    <div class="testimonials__slider">
+      <button class="testimonials__arrow testimonials__arrow--prev" id="testimonialPrev" aria-label="Previous">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <div class="testimonials__track" id="testimonialsTrack"></div>
+      <button class="testimonials__arrow testimonials__arrow--next" id="testimonialNext" aria-label="Next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </div>
+    <div class="testimonials__dots" id="testimonialsDots"></div>
+  </section>
+  <!-- ═══════════════════════════ END TESTIMONIALS ═══════════════════════════ -->
+
   <!-- ═══════════════════════════ CONTACT ═══════════════════════════ -->
   <section class="contact" id="contact">
     <div class="contact__inner">
@@ -202,7 +271,7 @@
         <p class="contact__sub">Reach out, pick a time that works for you, and we'll take it from there. No commitment. Just a conversation.</p>
       </div>
 
-      <form class="contact__form" action="https://formspree.io/f/xgorgald" method="POST" onsubmit="handleSubmit(event)">
+      <form class="contact__form" id="contactForm" action="https://formspree.io/f/xgorgald" method="POST">
         <div class="contact__row">
           <div class="contact__field">
             <label for="contactName">Name</label>
@@ -217,6 +286,7 @@
           <label for="contactMessage">Message</label>
           <textarea id="contactMessage" name="message" placeholder="Tell us a bit about your business and what you're looking for..." rows="6" required></textarea>
         </div>
+        <input type="text" name="_gotcha" class="contact__honeypot" tabindex="-1" autocomplete="off" />
         <button type="submit" class="btn btn--magenta contact__submit">Send Message</button>
         <p class="contact__success" id="contactSuccess">Thanks! We'll be in touch shortly.</p>
       </form>
@@ -229,14 +299,46 @@
   <footer class="footer">
     <div class="footer__inner">
       <a href="#" class="footer__logo">
-        <img src="images/logo.png" alt="MagnetiZM" class="footer__logo-img" />
+        <img src="images/logo.png" alt="MagnetiZm" class="footer__logo-img" />
       </a>
-      <p class="footer__copy">© 2025 MagnetiZM. All rights reserved.</p>
+      <p class="footer__copy">© 2025 MagnetiZm. All rights reserved.</p>
       <div class="footer__links">
         <a href="mailto:info@magnetizm.agency">info@magnetizm.agency</a>
+        <a href="privacy-policy.html">Privacy Policy</a>
       </div>
     </div>
   </footer>
+
+  <!-- ═══════════════════════════ COOKIE BANNER ═══════════════════════════ -->
+  <div class="cookie-banner" id="cookieBanner">
+    <div class="cookie-banner__inner">
+      <p class="cookie-banner__text">
+        We use cookies from YouTube for video playback. See our <a href="privacy-policy.html">Privacy Policy</a> for details.
+      </p>
+      <div class="cookie-banner__actions">
+        <button class="cookie-banner__decline" id="cookieDecline">Decline</button>
+        <button class="cookie-banner__accept" id="cookieAccept">Accept</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ REEL LIGHTBOX ═══════════════════════════ -->
+  <div class="reel-modal" id="reelModal">
+    <div class="reel-modal__overlay" id="reelModalOverlay"></div>
+    <div class="reel-modal__box">
+      <button class="reel-modal__close" id="reelModalClose" aria-label="Close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <video class="reel-modal__video" id="reelModalVideo" playsinline controls></video>
+      <button class="reel-modal__arrow reel-modal__arrow--prev" id="reelPrev" aria-label="Previous">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+      </button>
+      <button class="reel-modal__arrow reel-modal__arrow--next" id="reelNext" aria-label="Next">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+      <div class="reel-modal__counter" id="reelModalCounter">01 / 04</div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>

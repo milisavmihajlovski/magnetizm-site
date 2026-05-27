@@ -85,6 +85,13 @@ window.addEventListener('scroll', () => {
 function toggleMenu() {
   document.getElementById('mobileMenu').classList.toggle('open');
 }
+const burgerBtn = document.querySelector('.nav__burger');
+if (burgerBtn) burgerBtn.addEventListener('click', toggleMenu);
+
+document.querySelectorAll('#mobileMenu a').forEach(link => {
+  link.addEventListener('click', () => document.getElementById('mobileMenu').classList.remove('open'));
+});
+
 document.addEventListener('click', (e) => {
   const menu = document.getElementById('mobileMenu');
   const burger = document.querySelector('.nav__burger');
@@ -121,13 +128,6 @@ const annoObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.4 });
 
 if (aboutSection) annoObserver.observe(aboutSection);
-
-// ── Contact form submit ──
-function handleSubmit(e) {
-  const btn = document.querySelector('.contact__submit');
-  btn.textContent = 'Sending...';
-  btn.disabled = true;
-}
 
 // ── Services cards entrance animation ──
 const serviceCards = document.querySelectorAll('.service-card--anim');
@@ -183,14 +183,60 @@ let player = null;
 let playerReady = false;
 let workSectionSeen = false;
 
-// Load YouTube IFrame API
-const tag = document.createElement('script');
-tag.src = 'https://www.youtube.com/iframe_api';
-document.head.appendChild(tag);
+// ── Cookie consent ──
+function loadYouTube() {
+  const tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+}
+
+function showVideoDeclinedMessage() {
+  const playerWrap = document.querySelector('.work__player-wrap');
+  if (playerWrap) {
+    playerWrap.innerHTML = '';
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'work__cookie-msg';
+    const p = document.createElement('p');
+    p.textContent = 'Video playback is disabled.';
+    const btn = document.createElement('button');
+    btn.textContent = 'Accept cookies to watch';
+    btn.addEventListener('click', () => setCookieConsent('accepted'));
+    msgDiv.appendChild(p);
+    msgDiv.appendChild(btn);
+    playerWrap.appendChild(msgDiv);
+  }
+}
+
+function setCookieConsent(value) {
+  localStorage.setItem('cookieConsent', value);
+  const banner = document.getElementById('cookieBanner');
+  if (banner) banner.classList.remove('visible');
+  if (value === 'accepted') {
+    loadYouTube();
+  } else {
+    showVideoDeclinedMessage();
+  }
+}
+
+const existingConsent = localStorage.getItem('cookieConsent');
+if (!existingConsent) {
+  const banner = document.getElementById('cookieBanner');
+  if (banner) banner.classList.add('visible');
+} else if (existingConsent === 'accepted') {
+  loadYouTube();
+} else {
+  showVideoDeclinedMessage();
+}
+
+const cookieDeclineBtn = document.getElementById('cookieDecline');
+const cookieAcceptBtn = document.getElementById('cookieAccept');
+if (cookieDeclineBtn) cookieDeclineBtn.addEventListener('click', () => setCookieConsent('declined'));
+if (cookieAcceptBtn) cookieAcceptBtn.addEventListener('click', () => setCookieConsent('accepted'));
 
 // Called automatically by YouTube API when ready
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('ytPlayer', {
+    host: 'https://www.youtube-nocookie.com',
     videoId: projects[0].id,
     playerVars: {
       rel: 0,
@@ -241,4 +287,215 @@ function changeSlide(dir) {
     player.playVideo();
   }
   updateInfo();
+}
+
+const workPrevBtn = document.getElementById('workPrev');
+const workNextBtn = document.getElementById('workNext');
+if (workPrevBtn) workPrevBtn.addEventListener('click', () => changeSlide(-1));
+if (workNextBtn) workNextBtn.addEventListener('click', () => changeSlide(1));
+
+// ── Testimonials carousel ──
+const testimonialsData = [
+  {
+    quote: "Working with the MagnetiZm team was truly exceptional. Every challenge along the way was simply an opportunity for a creative solution. The entire journey to the final video was marked by professional expertise, genuine warmth, and creative spark — and the end result was outstanding. I'm so grateful for this experience and for getting to work with you. Highly recommend! 🏆",
+    name: "Sabina Gombač",
+    photo: "images/1. sabina.jpg"
+  },
+  {
+    quote: "Working with the MagnetiZm team was OUTSTANDING! The entire process moved incredibly fast and smoothly — they handled everything professionally from the initial prep all the way to delivering the final videos. It was a true pleasure. We could fully trust that everything would be filmed and edited at the highest level, and they brought an incredible level of dedication to the project. Even during prep it was clear they knew their craft and took it seriously. On set they were sharp on every single detail, they really felt the project and knew how to adapt. We were also blown away by how fast the editing was turned around. In short — more than highly recommended!",
+    name: "Urška Repnik Ferk",
+    photo: "images/2. urska.jpg"
+  },
+  {
+    quote: "So incredibly happy and grateful we decided to work together — I couldn't have imagined anything better. An excellent, professional, and warm team that truly listens to what you want, dives deep into your story, and makes the absolute most of it. I recommend them from the bottom of my heart. You're the best!",
+    name: "Vesna Ambrožič Bregar",
+    photo: "images/3. vesna.jpg"
+  },
+  {
+    quote: "Dynamic team, friendly people, and an amazing job. I'm super happy with the result. Totally recommended.",
+    name: "Giacomo Pazzarelli",
+    photo: "images/4. giacomo.jpg"
+  },
+  {
+    quote: "Thinking outside the box is one thing — actually pulling off something that seems 'impossible' is a whole other level. And that's exactly what Megi & Co are about! Always positive, they take even the wildest ideas and turn them into incredible, extraordinary stories. I've worked with them on many projects and the final results always knock my socks off. Bravo & keep up the awesome work! ❤",
+    name: "Tjaša Lapornik",
+    photo: "images/5. tjasa.jpg"
+  }
+];
+
+let currentTestimonial = 0;
+const testimonialsTrack = document.getElementById('testimonialsTrack');
+const testimonialsDots = document.getElementById('testimonialsDots');
+
+if (testimonialsTrack) {
+  testimonialsData.forEach((t, i) => {
+    const card = document.createElement('div');
+    card.className = 'testimonial-card' + (i === 0 ? ' active' : '');
+    card.innerHTML = `
+      <blockquote class="testimonial-card__quote">${t.quote}</blockquote>
+      <div class="testimonial-card__author">
+        <img src="${t.photo}" alt="${t.name}" class="testimonial-card__photo" />
+        <span class="testimonial-card__name">${t.name}</span>
+      </div>
+    `;
+    testimonialsTrack.appendChild(card);
+
+    const dot = document.createElement('button');
+    dot.className = 'testimonials__dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('aria-label', `Go to testimonial ${i + 1}`);
+    dot.addEventListener('click', () => { goToTestimonial(i); resetTestimonialTimer(); });
+    testimonialsDots.appendChild(dot);
+  });
+}
+
+function goToTestimonial(index) {
+  if (!testimonialsTrack) return;
+  const cards = testimonialsTrack.querySelectorAll('.testimonial-card');
+  const dots = testimonialsDots.querySelectorAll('.testimonials__dot');
+  cards[currentTestimonial].classList.remove('active');
+  dots[currentTestimonial].classList.remove('active');
+  currentTestimonial = ((index % testimonialsData.length) + testimonialsData.length) % testimonialsData.length;
+  cards[currentTestimonial].classList.add('active');
+  dots[currentTestimonial].classList.add('active');
+  recalcTestimonialsHeight();
+}
+
+function changeTestimonial(dir) {
+  goToTestimonial(currentTestimonial + dir);
+  resetTestimonialTimer();
+}
+
+// Set track to the height of the tallest card so the section never shifts.
+// Must run after images load so photo heights are included in the measurement.
+function recalcTestimonialsHeight() {
+  if (!testimonialsTrack) return;
+  testimonialsTrack.style.height = '';
+  if (window.innerWidth <= 768) {
+    const activeCard = testimonialsTrack.querySelector('.testimonial-card.active');
+    if (activeCard) testimonialsTrack.style.height = activeCard.offsetHeight + 'px';
+  } else {
+    const allCards = testimonialsTrack.querySelectorAll('.testimonial-card');
+    let maxHeight = 0;
+    allCards.forEach(card => { maxHeight = Math.max(maxHeight, card.offsetHeight); });
+    testimonialsTrack.style.height = maxHeight + 'px';
+  }
+}
+
+window.addEventListener('load', recalcTestimonialsHeight);
+window.addEventListener('resize', recalcTestimonialsHeight);
+
+const testimonialPrevBtn = document.getElementById('testimonialPrev');
+const testimonialNextBtn = document.getElementById('testimonialNext');
+if (testimonialPrevBtn) testimonialPrevBtn.addEventListener('click', () => { changeTestimonial(-1); resetTestimonialTimer(); });
+if (testimonialNextBtn) testimonialNextBtn.addEventListener('click', () => { changeTestimonial(1); resetTestimonialTimer(); });
+
+let testimonialTimer = setInterval(() => changeTestimonial(1), 5000);
+
+function resetTestimonialTimer() {
+  clearInterval(testimonialTimer);
+  testimonialTimer = setInterval(() => changeTestimonial(1), 5000);
+}
+
+const testimonialsSliderEl = document.querySelector('.testimonials__slider');
+if (testimonialsSliderEl) {
+  let tStartX = 0;
+  testimonialsSliderEl.addEventListener('touchstart', e => { tStartX = e.changedTouches[0].screenX; }, { passive: true });
+  testimonialsSliderEl.addEventListener('touchend', e => {
+    const diff = tStartX - e.changedTouches[0].screenX;
+    if (Math.abs(diff) > 50) changeTestimonial(diff > 0 ? 1 : -1);
+  }, { passive: true });
+}
+
+// ── Reels underline animation ──
+const reelsUnderline = document.querySelector('.reels__underline');
+const reelsSection = document.getElementById('reels');
+
+const underlineObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      reelsUnderline.classList.add('in-view');
+      underlineObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+if (reelsSection) underlineObserver.observe(reelsSection);
+
+// ═══════════════════════════════════════════
+// REEL LIGHTBOX
+// ═══════════════════════════════════════════
+
+const reelSources = [
+  'video/etnobotanika.mp4',
+  'video/megi.mp4',
+  'video/jana.mp4',
+  'video/neja.mp4'
+];
+
+let currentReel = 0;
+const reelModal = document.getElementById('reelModal');
+const reelModalVideo = document.getElementById('reelModalVideo');
+const reelModalCounter = document.getElementById('reelModalCounter');
+const gridVideos = document.querySelectorAll('.reel-item__video');
+
+document.querySelectorAll('.reel-item').forEach((item, index) => {
+  item.addEventListener('click', () => openReelModal(index));
+});
+
+function openReelModal(index) {
+  currentReel = index;
+  reelModalVideo.src = reelSources[currentReel];
+  reelModalVideo.currentTime = 0;
+  reelModalVideo.play();
+  updateReelCounter();
+  reelModal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  gridVideos.forEach(v => v.pause());
+}
+
+function closeReelModal() {
+  reelModal.classList.remove('open');
+  reelModalVideo.pause();
+  reelModalVideo.src = '';
+  document.body.style.overflow = '';
+  gridVideos.forEach(v => v.play());
+}
+
+function changeReelSlide(dir) {
+  currentReel = (currentReel + dir + reelSources.length) % reelSources.length;
+  reelModalVideo.src = reelSources[currentReel];
+  reelModalVideo.currentTime = 0;
+  reelModalVideo.play();
+  updateReelCounter();
+}
+
+function updateReelCounter() {
+  const num = String(currentReel + 1).padStart(2, '0');
+  reelModalCounter.textContent = `${num} / 0${reelSources.length}`;
+}
+
+const reelModalOverlay = document.getElementById('reelModalOverlay');
+const reelModalCloseBtn = document.getElementById('reelModalClose');
+const reelPrevBtn = document.getElementById('reelPrev');
+const reelNextBtn = document.getElementById('reelNext');
+if (reelModalOverlay) reelModalOverlay.addEventListener('click', closeReelModal);
+if (reelModalCloseBtn) reelModalCloseBtn.addEventListener('click', closeReelModal);
+if (reelPrevBtn) reelPrevBtn.addEventListener('click', () => changeReelSlide(-1));
+if (reelNextBtn) reelNextBtn.addEventListener('click', () => changeReelSlide(1));
+
+document.addEventListener('keydown', (e) => {
+  if (!reelModal.classList.contains('open')) return;
+  if (e.key === 'Escape') closeReelModal();
+  if (e.key === 'ArrowLeft') changeReelSlide(-1);
+  if (e.key === 'ArrowRight') changeReelSlide(1);
+});
+
+// ── Contact form ──
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', (e) => {
+    const btn = contactForm.querySelector('.contact__submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+  });
 }
