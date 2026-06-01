@@ -433,20 +433,6 @@ document.querySelectorAll('.reel-item').forEach((item, index) => {
   item.addEventListener('click', () => openReelModal(index));
 });
 
-// Play reel grid videos only when visible — avoids loading all 4 upfront
-const reelGridObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    const video = entry.target.querySelector('.reel-item__video');
-    if (!video) return;
-    if (entry.isIntersecting) {
-      video.play().catch(() => {});
-    } else {
-      video.pause();
-    }
-  });
-}, { threshold: 0.25 });
-
-document.querySelectorAll('.reel-item').forEach(item => reelGridObserver.observe(item));
 
 function openReelModal(index) {
   currentReel = index;
